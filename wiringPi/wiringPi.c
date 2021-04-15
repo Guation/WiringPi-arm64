@@ -219,7 +219,7 @@ volatile unsigned int *_wiringPiTimerIrqRaw ;
 
 static volatile unsigned int piGpioBase = 0 ;
 
-const char *piModelNames [20] =
+const char *piModelNames [21] =
 {
   "Model A",	//  0
   "Model B",	//  1
@@ -240,7 +240,8 @@ const char *piModelNames [20] =
   "CM3+",	// 16
   "Pi 4B",	// 17
   "Unknown18",	// 18
-  "Unknown19",	// 19
+  "Pi 400",	// 19
+  "CM4",	// 20
 } ;
 
 const char *piRevisionNames [16] =
@@ -290,7 +291,7 @@ const int piMemorySize [8] =
   1024,		//	 2
   2048,		//	 3
   4096,		//	 4
-     0,		//	 5
+  8192,		//	 5
      0,		//	 6
      0,		//	 7
 } ;
@@ -2048,7 +2049,7 @@ int wiringPiISR (int pin, int mode, void (*function)(void))
 	return wiringPiFailure (WPI_FATAL, "wiringPiISR: Can't find gpio program\n") ;
     }
     else		// Parent, wait
-      wait (NULL) ;
+      waitpid (pid, NULL, 0) ;
   }
 
 // Now pre-open the /sys/class node - but it may already be open if
@@ -2283,7 +2284,8 @@ int wiringPiSetup (void)
 
   if ((model == PI_MODEL_CM) ||
       (model == PI_MODEL_CM3) ||
-      (model == PI_MODEL_CM3P))
+      (model == PI_MODEL_CM3P) ||
+      (model == PI_MODEL_CM4))
     wiringPiMode = WPI_MODE_GPIO ;
   else
     wiringPiMode = WPI_MODE_PINS ;
@@ -2312,6 +2314,8 @@ int wiringPiSetup (void)
       break ;
 
     case PI_MODEL_4B:
+    case PI_MODEL_400:
+    case PI_MODEL_CM4:
       piGpioBase = GPIO_PERI_BASE_2711 ;
       piGpioPupOffset = GPPUPPDN0 ;
       break ;
