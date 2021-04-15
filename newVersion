@@ -27,7 +27,7 @@ echo Updating to version: `cat VERSION`
 
 rm -f version.h
 vMaj=`cut -d. -f1 VERSION`
-vMin=`cut -d. -f2 VERSION`
+vMin=`cut -d. -f2 VERSION | cut -d- -f1`
 echo "#define VERSION \"`cat VERSION`\"" > version.h
 echo "#define VERSION_MAJOR $vMaj"		>> version.h
 echo "#define VERSION_MINOR $vMin"		>> version.h
@@ -38,9 +38,10 @@ Package: wiringpi
 Version: `cat VERSION`
 Section: libraries
 Priority: optional
-Architecture: armhf
-Depends: libc6
+Architecture: arm64
+Depends: libc6,libc6:armhf
 Maintainer: Gordon Henderson <projects@drogon.net>
+Changed-By: Guation <guation@163.com>
 Description: The wiringPi libraries, headers and gpio command
   Libraries to allow GPIO access on a Raspberry Pi from C and C++
   and BASIC programs as well as from the command-line

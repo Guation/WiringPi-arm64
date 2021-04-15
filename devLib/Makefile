@@ -37,6 +37,7 @@ DYNAMIC=libwiringPiDev.so.$(VERSION)
 #DEBUG	= -g -O0
 DEBUG	= -O2
 CC	?= gcc
+CCC     ?= arm-linux-gnueabihf-gcc
 INCLUDE	= -I.
 DEFS	= -D_GNU_SOURCE
 CFLAGS	= $(DEBUG) $(DEFS) -Wformat=2 -Wall -Winline $(INCLUDE) -pipe -fPIC $(EXTRA_CFLAGS)
@@ -52,6 +53,7 @@ SRC	=	ds1302.c maxdetect.c  piNes.c		\
 		piGlow.c
 
 OBJ	=	$(SRC:.c=.o)
+OBJ32   =       $(SRC:.c=.o32)
 
 HEADERS	=	ds1302.h gertboard.h  lcd128x64.h  lcd.h  maxdetect.h piFace.h  piGlow.h  piNes.h\
 		scrollPhat.h
@@ -69,15 +71,19 @@ $(STATIC):	$(OBJ)
 $(DYNAMIC):	$(OBJ)
 	$Q echo "[Link (Dynamic)]"
 	$Q $(CC) -shared -Wl,-soname,libwiringPiDev.so$(WIRINGPI_SONAME_SUFFIX) -o libwiringPiDev.so.$(VERSION) -lpthread $(OBJ)
+	$Q $(CCC) -shared -Wl,-soname,libwiringPiDev.so32$(WIRINGPI_SONAME_SUFFIX) -o libwiringPiDev.so32.$(VERSION) -lpthread $(OBJ32)
+	ln -sf libwiringPiDev.so.$(VERSION) libwiringPiDev.so
 
 .c.o:
 	$Q echo [Compile] $<
 	$Q $(CC) -c $(CFLAGS) $< -o $@
+	$Q $(CCC) -c $(CFLAGS) $< -o $@32
 
 .PHONY:	clean
 clean:
 	$Q echo "[Clean]"
 	$Q rm -f $(OBJ) $(OBJ_I2C) *~ core tags Makefile.bak libwiringPiDev.*
+	$Q rm -f $(OBJ32) $(OBJ_I2C) *~ core tags Makefile.bak libwiringPiDev.*
 
 .PHONY:	tags
 tags:	$(SRC)
@@ -118,8 +124,12 @@ install-deb:	$(DYNAMIC) check-deb-destdir
 	$Q install -m 0644 $(HEADERS)						$(DEB_DESTDIR)/usr/include
 	$Q echo "[Install Dynamic Lib: deb]"
 	install -m 0755 -d							$(DEB_DESTDIR)/usr/lib
-	install -m 0755 libwiringPiDev.so.$(VERSION)				$(DEB_DESTDIR)/usr/lib/libwiringPiDev.so.$(VERSION)
-	ln -sf $(DEB_DESTDIR)/usr/lib/libwiringPiDev.so.$(VERSION)		$(DEB_DESTDIR)/usr/lib/libwiringPiDev.so
+	install -m 0755 -d                                                      $(DEB_DESTDIR)/usr/lib/aarch64-linux-gnu
+	install -m 0755 -d                                                      $(DEB_DESTDIR)/usr/lib/arm-linux-gnueabihf
+	install -m 0755 libwiringPiDev.so.$(VERSION)				$(DEB_DESTDIR)/usr/lib/aarch64-linux-gnu/libwiringPiDev.so.$(VERSION)
+	install -m 0755 libwiringPiDev.so32.$(VERSION)                            $(DEB_DESTDIR)/usr/lib/arm-linux-gnueabihf/libwiringPiDev.so.$(VERSION)
+	ln -sf $(DEB_DESTDIR)/usr/lib/aarch64-linux-gnu/libwiringPiDev.so.$(VERSION)		$(DEB_DESTDIR)/usr/lib/aarch64-linux-gnu/libwiringPiDev.so
+	ln -sf $(DEB_DESTDIR)/usr/lib/arm-linux-gnueabihf/libwiringPiDev.so.$(VERSION)          $(DEB_DESTDIR)/usr/lib/arm-linux-gnueabihf/libwiringPiDev.so
 
 .PHONY:	uninstall
 uninstall:
