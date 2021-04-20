@@ -13,11 +13,22 @@ to support newer hardware (primarily for use by the ports) and fix bugs.
 
 Install 安装
 -----
-Download from the last Releases.
-
+1.Download from the last Releases.
 从Releases下载最新的构建文件。
 
 https://github.com/guation/WiringPi-arm64/releases
+
+2.Enable 32-bit support.
+开启32位支持。
+
+If you are using Rspberry PI OS, please skip this step.如果你使用Raspberry Pi OS请跳过此步骤。
+
+```
+sudo dpkg --add-architecture armhf
+sudo apt update
+```
+
+3.Install the DEB file.安装deb文件。
 
 `sudo apt install -f ./wiringpi-*-g.deb`
 
