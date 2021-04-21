@@ -30,7 +30,9 @@ sudo apt update
 
 3.Install the DEB file.安装deb文件。
 
-`sudo apt install -f ./wiringpi-*-g.deb`
+```
+sudo apt install -f ./wiringpi-*-g.deb
+```
 
 Build 构建
 -----
@@ -40,7 +42,9 @@ cd WiringPi-arm64/
 ```
 build for install,not recommended. 直接安装(仅编译安装对应架构的库文件，不推荐)。
 
-`./build`
+```
+./build
+```
 
 build for deb,recommend. 打包deb(同时编译32位和64位库，可以兼容依赖32位库构建的应用程序，推荐)。
 
