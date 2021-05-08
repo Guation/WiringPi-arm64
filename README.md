@@ -18,6 +18,8 @@ Install 安装
 
 https://github.com/guation/WiringPi-arm64/releases
 
+https://gitee.com/guation/WiringPi-arm64/releases
+
 2.Enable 32-bit support.
 开启32位支持。
 
