@@ -1,5 +1,3 @@
-项目开发中，暂未上线。
-=================================
 WiringPi (Unofficial Mirror/Fork)
 =================================
 
@@ -12,6 +10,52 @@ to support newer hardware (primarily for use by the ports) and fix bugs.
     [`final_source_2.50`](https://github.com/WiringPi/WiringPi/tree/final_official_2.50) tag.
   * The default `master` branch contains code that has been written since that final source
     release to provide support for newer hardware.
+
+Install 安装
+-----
+1.Download from the last Releases.
+从Releases下载最新的构建文件。
+
+https://github.com/guation/WiringPi-arm64/releases
+
+https://gitee.com/guation/WiringPi-arm64/releases
+
+2.Enable 32-bit support.
+开启32位支持。
+
+If you are using Rspberry PI OS, please skip this step.如果你使用Raspberry Pi OS请跳过此步骤。
+
+```
+sudo dpkg --add-architecture armhf
+sudo apt update
+```
+
+3.Install the DEB file.安装deb文件。
+
+```
+sudo apt install -f ./wiringpi-*-g.deb
+```
+
+Build 构建
+-----
+```
+git clone https://github.com/guation/WiringPi-arm64.git
+cd WiringPi-arm64/
+```
+build for install,not recommended. 直接安装(仅编译安装对应架构的库文件，不推荐)。
+
+```
+./build
+```
+
+build for deb,recommend. 打包deb(同时编译32位和64位库，可以兼容依赖32位库构建的应用程序，推荐)。
+
+```
+sudo apt install -y gcc-arm-linux-gnueabihf
+./build debian
+sudo apt install -fy ./debian-template/wiringpi-`cat VERSION`.deb
+```
+
 
 Ports
 -----
