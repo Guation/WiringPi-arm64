@@ -82,7 +82,7 @@ static:
 $(DYNAMIC):	$(OBJ)
 	$Q echo "[Link (Dynamic)]"
 	$Q $(CC) -shared -Wl,-soname,libwiringPi.so$(WIRINGPI_SONAME_SUFFIX) -o libwiringPi.so.$(VERSION) $(LIBS) $(OBJ)
-	$Q $(CCC) -shared -Wl,-soname,libwiringPi.so32$(WIRINGPI_SONAME_SUFFIX) -o libwiringPi.so32.$(VERSION) $(LIBS) $(OBJ32)
+	$Q $(CCC) -shared -Wl,-soname,libwiringPi.so$(WIRINGPI_SONAME_SUFFIX) -o libwiringPi.so32.$(VERSION) $(LIBS) $(OBJ32)
 	ln -sf libwiringPi.so.$(VERSION) libwiringPi.so
 
 .c.o:
@@ -131,8 +131,8 @@ install-deb:	$(DYNAMIC) check-deb-destdir
 	install -m 0755 -d                                                      $(DEB_DESTDIR)/usr/lib/arm-linux-gnueabihf
 	install -m 0755 libwiringPi.so.$(VERSION)				$(DEB_DESTDIR)/usr/lib/aarch64-linux-gnu/libwiringPi.so.$(VERSION)
 	install -m 0755 libwiringPi.so32.$(VERSION)                             $(DEB_DESTDIR)/usr/lib/arm-linux-gnueabihf/libwiringPi.so.$(VERSION)
-	ln -sf $(DEB_DESTDIR)/usr/lib/aarch64-linux-gnu/libwiringPi.so.$(VERSION)	$(DEB_DESTDIR)/usr/lib/aarch64-linux-gnu/libwiringPi.so
-	ln -sf $(DEB_DESTDIR)/usr/lib/arm-linux-gnueabihf/libwiringPi.so.$(VERSION)     $(DEB_DESTDIR)/usr/lib/arm-linux-gnueabihf/libwiringPi.so
+	#ln -sf $(DEB_DESTDIR)/usr/lib/aarch64-linux-gnu/libwiringPi.so.$(VERSION)	$(DEB_DESTDIR)/usr/lib/aarch64-linux-gnu/libwiringPi.so
+	#ln -sf $(DEB_DESTDIR)/usr/lib/arm-linux-gnueabihf/libwiringPi.so.$(VERSION)     $(DEB_DESTDIR)/usr/lib/arm-linux-gnueabihf/libwiringPi.so
 
 .PHONY:	uninstall
 uninstall:

@@ -1,5 +1,5 @@
 Package: wiringpi
-Version: 2.60-g
+Version: 2.61-g
 Section: libraries
 Priority: optional
 Architecture: arm64

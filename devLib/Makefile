@@ -75,7 +75,7 @@ $(STATIC):	$(OBJ)
 $(DYNAMIC):	$(OBJ)
 	$Q echo "[Link (Dynamic)]"
 	$Q $(CC) -shared -Wl,-soname,libwiringPiDev.so$(WIRINGPI_SONAME_SUFFIX) -o libwiringPiDev.so.$(VERSION) -lpthread $(OBJ)
-	$Q $(CCC) -shared -Wl,-soname,libwiringPiDev.so32$(WIRINGPI_SONAME_SUFFIX) -o libwiringPiDev.so32.$(VERSION) -lpthread $(OBJ32)
+	$Q $(CCC) -shared -Wl,-soname,libwiringPiDev.so$(WIRINGPI_SONAME_SUFFIX) -o libwiringPiDev.so32.$(VERSION) -lpthread $(OBJ32)
 	ln -sf libwiringPiDev.so.$(VERSION) libwiringPiDev.so
 
 .c.o:
@@ -132,8 +132,8 @@ install-deb:	$(DYNAMIC) check-deb-destdir
 	install -m 0755 -d                                                      $(DEB_DESTDIR)/usr/lib/arm-linux-gnueabihf
 	install -m 0755 libwiringPiDev.so.$(VERSION)				$(DEB_DESTDIR)/usr/lib/aarch64-linux-gnu/libwiringPiDev.so.$(VERSION)
 	install -m 0755 libwiringPiDev.so32.$(VERSION)                            $(DEB_DESTDIR)/usr/lib/arm-linux-gnueabihf/libwiringPiDev.so.$(VERSION)
-	ln -sf $(DEB_DESTDIR)/usr/lib/aarch64-linux-gnu/libwiringPiDev.so.$(VERSION)		$(DEB_DESTDIR)/usr/lib/aarch64-linux-gnu/libwiringPiDev.so
-	ln -sf $(DEB_DESTDIR)/usr/lib/arm-linux-gnueabihf/libwiringPiDev.so.$(VERSION)          $(DEB_DESTDIR)/usr/lib/arm-linux-gnueabihf/libwiringPiDev.so
+	#ln -sf $(DEB_DESTDIR)/usr/lib/aarch64-linux-gnu/libwiringPiDev.so.$(VERSION)		$(DEB_DESTDIR)/usr/lib/aarch64-linux-gnu/libwiringPiDev.so
+	#ln -sf $(DEB_DESTDIR)/usr/lib/arm-linux-gnueabihf/libwiringPiDev.so.$(VERSION)          $(DEB_DESTDIR)/usr/lib/arm-linux-gnueabihf/libwiringPiDev.so
 
 .PHONY:	uninstall
 uninstall:
