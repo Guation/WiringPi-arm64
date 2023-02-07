@@ -1,13 +1,14 @@
 Package: wiringpi
-Version: 2.70
+Version: 2.70-g
 Section: libraries
 Priority: optional
-Architecture: armhf
-Depends: libc6
+Architecture: arm64
+Depends: libc6,libc6:armhf
 Maintainer: Phil Howard <wiringpi@gadgetoid.com>
 Uploaders: Phil Howard <wiringpi@gadgetoid.com>
+Changed-By: Guation <guation@163.com>
 Description: The wiringPi libraries, headers and gpio command
   Libraries to allow GPIO access on a Raspberry Pi from C and C++
   and BASIC programs as well as from the command-line
-Homepage: https://github.com/WiringPi/WiringPi/
+Homepage: https://github.com/guation/WiringPi-arm64/
 Bugs: https://github.com/WiringPi/WiringPi/

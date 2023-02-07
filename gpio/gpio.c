@@ -1352,7 +1352,7 @@ int main (int argc, char *argv [])
 
   if (strcasecmp (argv [1], "-warranty") == 0)
   {
-    printf ("gpio version: %s\n", VERSION) ;
+    printf ("gpio version: %s-g\n", VERSION) ;
     printf ("Copyright (c) 2012-2018 Gordon Henderson\n") ;
     printf ("\n") ;
     printf ("    This program is free software; you can redistribute it and/or modify\n") ;
