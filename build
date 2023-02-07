@@ -88,11 +88,23 @@ if [ x$1 = "xdebian" ]; then
   cd debian-template/wiringPi
   rm -rf usr
   cd $here/wiringPi
-  make install-deb DEB_DESTDIR=${deb_destdir}
+  make clean
+  make
+  make install-deb DEB_DESTDIR=${deb_destdir} AECHFIX=/aarch64-linux-gnu
+  make clean
+  make CC=arm-linux-gnueabihf-gcc
+  make install-deb DEB_DESTDIR=${deb_destdir} AECHFIX=/arm-linux-gnueabihf
   cd $here/devLib
-  make install-deb INCLUDE='-I. -I../wiringPi' DEB_DESTDIR=${deb_destdir}
+  make clean
+  make
+  make install-deb INCLUDE='-I. -I../wiringPi' DEB_DESTDIR=${deb_destdir} AECHFIX=/aarch64-linux-gnu
+  make clean
+  make
+  make install-deb INCLUDE='-I. -I../wiringPi' DEB_DESTDIR=${deb_destdir} AECHFIX=/arm-linux-gnueabihf
   cd $here/gpio
-  make install-deb INCLUDE='-I../wiringPi -I../devLib' LDFLAGS=-L../debian-template/wiringPi/usr/lib DEB_DESTDIR=${deb_destdir}
+  make clean
+  make
+  make install-deb INCLUDE='-I../wiringPi -I../devLib' LDFLAGS=-L../debian-template/wiringPi/usr/lib/aarch64-linux-gnu DEB_DESTDIR=${deb_destdir}
   cd $here/debian-template
   fakeroot dpkg-deb --build wiringPi
   mv wiringPi.deb  wiringpi-`cat $here/VERSION`-1.deb
