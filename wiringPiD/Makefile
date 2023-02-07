@@ -24,6 +24,7 @@
 
 DESTDIR?=/usr
 PREFIX?=/local
+AECHFIX?=
 
 ifneq ($V,1)
 Q ?= @
@@ -72,22 +73,22 @@ install: wiringpid
 	$Q cp wiringpid		$(DESTDIR)$(PREFIX)/sbin
 	$Q chown root.root	$(DESTDIR)$(PREFIX)/sbin/wiringpid
 
-#	$Q mkdir -p		$(DESTDIR)$(PREFIX)/man/man8
-#	$Q cp gpio.1		$(DESTDIR)$(PREFIX)/man/man8
+#	$Q mkdir -p		$(DESTDIR)$(PREFIX)/share/man/man8
+#	$Q cp wiringpid.8		$(DESTDIR)$(PREFIX)/share/man/man8
 
 .PHONY:	install-deb
 install-deb:	gpio
 	$Q echo "[Install: deb]"
-	$Q install -m 0755 -d							$(DEB_DESTDIR)/usr/bin
-	$Q install -m 0755 gpio							$(DEB_DESTDIR)/usr/bin
-	$Q install -m 0755 -d							$(DEB_DESTDIR)/man/man1
-	$Q install -m 0644 gpio.1						$(DEB_DESTDIR)/man/man1
+	$Q install -m 0755 -d							$(DEB_DESTDIR)$(DESTDIR)$(PREFIX)/bin
+	$Q install -m 0755 gpio							$(DEB_DESTDIR)$(DESTDIR)$(PREFIX)/bin
+	$Q install -m 0755 -d							$(DEB_DESTDIR)$(DESTDIR)$(PREFIX)/share/man/man1
+	$Q install -m 0644 gpio.1						$(DEB_DESTDIR)$(DESTDIR)$(PREFIX)/share/man/man1
 
 .PHONY:	uninstall
 uninstall:
 	$Q echo "[UnInstall]"
 	$Q rm -f $(DESTDIR)$(PREFIX)/sbin/wiringpid
-	$Q rm -f $(DESTDIR)$(PREFIX)/man/man8/wiringpid.8
+#	$Q rm -f $(DESTDIR)$(PREFIX)/share/man/man8/wiringpid.8
 
 .PHONY:	depend
 depend:

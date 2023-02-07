@@ -24,6 +24,7 @@
 VERSION=$(shell cat ../VERSION)
 DESTDIR?=/usr
 PREFIX?=/local
+AECHFIX?=
 
 LDCONFIG?=ldconfig
 
@@ -99,9 +100,9 @@ install:	$(DYNAMIC)
 	$Q install -m 0755 -d						$(DESTDIR)$(PREFIX)/include
 	$Q install -m 0644 $(HEADERS)					$(DESTDIR)$(PREFIX)/include
 	$Q echo "[Install Dynamic Lib]"
-	$Q install -m 0755 -d						$(DESTDIR)$(PREFIX)/lib
-	$Q install -m 0755 libwiringPi.so.$(VERSION)			$(DESTDIR)$(PREFIX)/lib/libwiringPi.so.$(VERSION)
-	$Q ln -sf $(DESTDIR)$(PREFIX)/lib/libwiringPi.so.$(VERSION)	$(DESTDIR)/lib/libwiringPi.so
+	$Q install -m 0755 -d						$(DESTDIR)$(PREFIX)/lib$(AECHFIX)
+	$Q install -m 0755 libwiringPi.so.$(VERSION)			$(DESTDIR)$(PREFIX)/lib$(AECHFIX)/libwiringPi.so.$(VERSION)
+	$Q ln -sf $(DESTDIR)$(PREFIX)/lib$(AECHFIX)/libwiringPi.so.$(VERSION)	$(DESTDIR)/lib$(AECHFIX)/libwiringPi.so
 	$Q $(LDCONFIG)
 
 .PHONY: check-deb-destdir
@@ -113,18 +114,18 @@ endif
 .PHONY:	install-deb
 install-deb:	$(DYNAMIC) check-deb-destdir
 	$Q echo "[Install Headers: deb]"
-	$Q install -m 0755 -d							$(DEB_DESTDIR)/usr/include
-	$Q install -m 0644 $(HEADERS)						$(DEB_DESTDIR)/usr/include
+	$Q install -m 0755 -d							$(DEB_DESTDIR)$(DESTDIR)$(PREFIX)/include
+	$Q install -m 0644 $(HEADERS)						$(DEB_DESTDIR)$(DESTDIR)$(PREFIX)/include
 	$Q echo "[Install Dynamic Lib: deb]"
-	install -m 0755 -d							$(DEB_DESTDIR)/usr/lib
-	install -m 0755 libwiringPi.so.$(VERSION)				$(DEB_DESTDIR)/usr/lib/libwiringPi.so.$(VERSION)
-	ln -sf $(DEB_DESTDIR)/usr/lib/libwiringPi.so.$(VERSION)	$(DEB_DESTDIR)/usr/lib/libwiringPi.so
+	install -m 0755 -d							$(DEB_DESTDIR)$(DESTDIR)$(PREFIX)/lib$(AECHFIX)
+	install -m 0755 libwiringPi.so.$(VERSION)				$(DEB_DESTDIR)$(DESTDIR)$(PREFIX)/lib$(AECHFIX)/libwiringPi.so.$(VERSION)
+	ln -sf $(DEB_DESTDIR)$(DESTDIR)$(PREFIX)/lib$(AECHFIX)/libwiringPi.so.$(VERSION)	$(DEB_DESTDIR)$(DESTDIR)$(PREFIX)/lib$(AECHFIX)/libwiringPi.so
 
 .PHONY:	uninstall
 uninstall:
 	$Q echo "[UnInstall]"
 	$Q cd $(DESTDIR)$(PREFIX)/include/ && rm -f $(HEADERS)
-	$Q cd $(DESTDIR)$(PREFIX)/lib/     && rm -f libwiringPi.*
+	$Q cd $(DESTDIR)$(PREFIX)/lib$(AECHFIX)/     && rm -f libwiringPi.*
 	$Q $(LDCONFIG)
 
 
