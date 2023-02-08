@@ -1267,7 +1267,7 @@ static void doVersion (char *argv [])
   int vMaj, vMin ;
 
   wiringPiVersion (&vMaj, &vMin) ;
-  printf ("gpio version: %d.%d\n", vMaj, vMin) ;
+  printf ("gpio version: %d.%d-g\n", vMaj, vMin) ;
   printf ("Copyright (c) 2012-2018 Gordon Henderson\n") ;
   printf ("This is free software with ABSOLUTELY NO WARRANTY.\n") ;
   printf ("For details type: %s -warranty\n", argv [0]) ;

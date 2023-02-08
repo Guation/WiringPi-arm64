@@ -139,7 +139,7 @@ if [ x$1 = "xdebian" ]; then
     make install-deb DEB_DESTDIR=${deb_destdir} AECHFIX=/aarch64-linux-gnu
   elif [ $armhf = "yes" ];then
     make clean
-    make INCLUDE='-I../wiringPi -I../devLib' LDFLAGS=-L../debian-template/wiringPi/usr/lib/arm-linux-gnueabihf
+    make CC=arm-linux-gnueabihf-gcc INCLUDE='-I../wiringPi -I../devLib' LDFLAGS=-L../debian-template/wiringPi/usr/lib/arm-linux-gnueabihf
     make install-deb DEB_DESTDIR=${deb_destdir} AECHFIX=/aarch64-linux-gnu
   fi
   cd $here/debian-template
