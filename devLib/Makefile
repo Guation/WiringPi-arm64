@@ -115,12 +115,12 @@ endif
 .PHONY:	install-deb
 install-deb:	$(DYNAMIC) check-deb-destdir
 	$Q echo "[Install Headers: deb]"
-	$Q install -m 0755 -d							$(DEB_DESTDIR)$(DESTDIR)$(PREFIX)/include
-	$Q install -m 0644 $(HEADERS)						$(DEB_DESTDIR)$(DESTDIR)$(PREFIX)/include
+	$Q install -m 0755 -d							$(DEB_DESTDIR)$(DESTDIR)/include
+	$Q install -m 0644 $(HEADERS)						$(DEB_DESTDIR)$(DESTDIR)/include
 	$Q echo "[Install Dynamic Lib: deb]"
-	install -m 0755 -d							$(DEB_DESTDIR)$(DESTDIR)$(PREFIX)/lib$(AECHFIX)
-	install -m 0755 libwiringPiDev.so.$(VERSION)				$(DEB_DESTDIR)$(DESTDIR)$(PREFIX)/lib$(AECHFIX)/libwiringPiDev.so.$(VERSION)
-	ln -sf $(DEB_DESTDIR)$(DESTDIR)$(PREFIX)/lib$(AECHFIX)/libwiringPiDev.so.$(VERSION)		$(DEB_DESTDIR)$(DESTDIR)$(PREFIX)/lib$(AECHFIX)/libwiringPiDev.so
+	install -m 0755 -d							$(DEB_DESTDIR)$(DESTDIR)/lib$(AECHFIX)
+	install -m 0755 libwiringPiDev.so.$(VERSION)				$(DEB_DESTDIR)$(DESTDIR)/lib$(AECHFIX)/libwiringPiDev.so.$(VERSION)
+	ln -sf $(DEB_DESTDIR)$(DESTDIR)/lib$(AECHFIX)/libwiringPiDev.so.$(VERSION)		$(DEB_DESTDIR)$(DESTDIR)/lib$(AECHFIX)/libwiringPiDev.so
 
 .PHONY:	uninstall
 uninstall:

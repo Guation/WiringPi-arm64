@@ -91,10 +91,10 @@ endif
 .PHONY:	install-deb
 install-deb:	gpio check-deb-destdir
 	$Q echo "[Install: deb]"
-	$Q install -m 0755 -d							$(DEB_DESTDIR)$(DESTDIR)$(PREFIX)/bin
-	$Q install -m 0755 gpio							$(DEB_DESTDIR)$(DESTDIR)$(PREFIX)/bin
-	$Q install -m 0755 -d							$(DEB_DESTDIR)$(DESTDIR)$(PREFIX)/share/man/man1
-	$Q install -m 0644 gpio.1						$(DEB_DESTDIR)$(DESTDIR)$(PREFIX)/share/man/man1
+	$Q install -m 0755 -d							$(DEB_DESTDIR)$(DESTDIR)/bin
+	$Q install -m 0755 gpio							$(DEB_DESTDIR)$(DESTDIR)/bin
+	$Q install -m 0755 -d							$(DEB_DESTDIR)$(DESTDIR)/share/man/man1
+	$Q install -m 0644 gpio.1						$(DEB_DESTDIR)$(DESTDIR)/share/man/man1
 
 .PHONY:	uninstall
 uninstall:
