@@ -47,7 +47,7 @@
 
 static int myAnalogRead (struct wiringPiNodeStruct *node, int pin)
 {
-  int *ptr   = (int *)node->data0 ;
+  int *ptr   = (int *)(node->data0) ;
   int  myPin = pin - node->pinBase ;
 
   return *(ptr + myPin) ;
@@ -56,7 +56,7 @@ static int myAnalogRead (struct wiringPiNodeStruct *node, int pin)
 
 static void myAnalogWrite (struct wiringPiNodeStruct *node, int pin, int value)
 {
-  int *ptr   = (int *)node->data0 ;
+  int *ptr   = (int *)(node->data0) ;
   int  myPin = pin - node->pinBase ;
 
   *(ptr + myPin) = value ;
@@ -86,7 +86,7 @@ int pseudoPinsSetup (const int pinBase)
 
   ptr = mmap (NULL, PSEUDO_PINS * sizeof (int), PROT_READ | PROT_WRITE, MAP_SHARED, node->fd, 0) ;
 
-  node->data0 = (unsigned int)ptr ;
+  node->data0 = (unsigned int)(size_t)ptr ;
 
   node->analogRead  = myAnalogRead ;
   node->analogWrite = myAnalogWrite ;
