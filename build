@@ -83,31 +83,70 @@ fi
 # Only if you know what you're doing!
 
 if [ x$1 = "xdebian" ]; then
+  arch="g$2"
+  arm64="no"
+  armhf="no"
+  if [ $arch = "gall" ];then
+    arm64="yes"
+    armhf="yes"
+    sed -i "s/^Architecture:.*/Architecture: arm64/" debian-template/wiringPi/DEBIAN/control
+    sed -i "s/^Depends:.*/Depends: libc6,libc6:armhf/" debian-template/wiringPi/DEBIAN/control
+  elif [ $arch = "garm64" ];then
+    arm64="yes"
+    armhf="no"
+    sed -i "s/^Architecture:.*/Architecture: arm64/" debian-template/wiringPi/DEBIAN/control
+    sed -i "s/^Depends:.*/Depends: libc6/" debian-template/wiringPi/DEBIAN/control
+  elif [ $arch = "garmhf" ];then
+    arm64="no"
+    armhf="yes"
+    sed -i "s/^Architecture:.*/Architecture: armhf/" debian-template/wiringPi/DEBIAN/control
+    sed -i "s/^Depends:.*/Depends: libc6/" debian-template/wiringPi/DEBIAN/control
+  else
+    echo "$0 $1 [all|arm64|armhf]"
+    exit 0
+  fi
+  echo "build arch: $2"
   here=`pwd`
   deb_destdir=${here}/debian-template/wiringPi
   cd debian-template/wiringPi
   rm -rf usr
   cd $here/wiringPi
-  make clean
-  make
-  make install-deb DEB_DESTDIR=${deb_destdir} AECHFIX=/aarch64-linux-gnu
-  make clean
-  make CC=arm-linux-gnueabihf-gcc
-  make install-deb DEB_DESTDIR=${deb_destdir} AECHFIX=/arm-linux-gnueabihf
+  if [ $arm64 = "yes" ];then
+    make clean
+    make
+    make install-deb DEB_DESTDIR=${deb_destdir} AECHFIX=/aarch64-linux-gnu
+  fi
+  if [ $armhf = "yes" ];then
+    make clean
+    make CC=arm-linux-gnueabihf-gcc
+    make install-deb DEB_DESTDIR=${deb_destdir} AECHFIX=/arm-linux-gnueabihf
+  fi
   cd $here/devLib
-  make clean
-  make INCLUDE='-I. -I../wiringPi'
-  make install-deb DEB_DESTDIR=${deb_destdir} AECHFIX=/aarch64-linux-gnu
-  make clean
-  make INCLUDE='-I. -I../wiringPi'
-  make install-deb DEB_DESTDIR=${deb_destdir} AECHFIX=/arm-linux-gnueabihf
+  if [ $arm64 = "yes" ];then
+    make clean
+    make INCLUDE='-I. -I../wiringPi'
+    make install-deb DEB_DESTDIR=${deb_destdir} AECHFIX=/aarch64-linux-gnu
+  fi
+  if [ $armhf = "yes" ];then
+    make clean
+    make INCLUDE='-I. -I../wiringPi'
+    make install-deb DEB_DESTDIR=${deb_destdir} AECHFIX=/arm-linux-gnueabihf
+  fi
   cd $here/gpio
-  make clean
-  make INCLUDE='-I../wiringPi -I../devLib' LDFLAGS=-L../debian-template/wiringPi/usr/lib/aarch64-linux-gnu
-  make install-deb DEB_DESTDIR=${deb_destdir} AECHFIX=/aarch64-linux-gnu
+  if [ $arm64 = "yes" ];then
+    make clean
+    make INCLUDE='-I../wiringPi -I../devLib' LDFLAGS=-L../debian-template/wiringPi/usr/lib/aarch64-linux-gnu
+    make install-deb DEB_DESTDIR=${deb_destdir} AECHFIX=/aarch64-linux-gnu
+  elif [ $armhf = "yes" ];then
+    make clean
+    make INCLUDE='-I../wiringPi -I../devLib' LDFLAGS=-L../debian-template/wiringPi/usr/lib/arm-linux-gnueabihf
+    make install-deb DEB_DESTDIR=${deb_destdir} AECHFIX=/aarch64-linux-gnu
+  fi
   cd $here/debian-template
   fakeroot dpkg-deb --build wiringPi
-  mv wiringPi.deb  wiringpi-`cat $here/VERSION`-1.deb
+  [ $arm64 = "yes" ] && arm64="_arm64" || arm64=""
+  [ $armhf = "yes" ] && armhf="_armhf" || armhf=""
+  mv wiringPi.deb  wiringpi_`cat $here/VERSION`${arm64}${armhf}.deb
   exit
 fi
 
