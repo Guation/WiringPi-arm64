@@ -150,10 +150,10 @@ struct wiringPiNodeStruct
   int     pinMax ;
 
   int          fd ;	// Node specific
-  unsigned int data0 ;	//  ditto
-  unsigned int data1 ;	//  ditto
-  unsigned int data2 ;	//  ditto
-  unsigned int data3 ;	//  ditto
+  size_t    data0 ;	//  ditto
+  size_t    data1 ;	//  ditto
+  size_t    data2 ;	//  ditto
+  size_t    data3 ;	//  ditto
 
            void   (*pinMode)          (struct wiringPiNodeStruct *node, int pin, int mode) ;
            void   (*pullUpDnControl)  (struct wiringPiNodeStruct *node, int pin, int mode) ;
